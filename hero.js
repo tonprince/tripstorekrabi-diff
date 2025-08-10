@@ -56,3 +56,4 @@ export async function exportHero() {
 
   return tempOutputRows;
 }
+exportHero();
