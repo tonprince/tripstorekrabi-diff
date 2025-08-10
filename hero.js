@@ -1,9 +1,7 @@
-const { firestore } = require('./firebase.js');
-const { writeFileSync } = require('fs');
+import { firestore } from './firebase.js';
+import { writeFileSync } from 'fs';
 
-exportData();
-
-async function exportData() {
+export async function exportHero() {
   let snapshot = await firestore.collection("products").where("operator.default.name", "==", "Satun Pakbara Speed Boat Club").get();
   let items = snapshot.docs.map((item) => (item.data())).sort(((d1, d2) => d1.title.localeCompare(d2.title)));
 

@@ -9,5 +9,8 @@
   "dependencies": {
     "firebase-admin": "^13.4.0"
   },
-  "type": "commonjs"
+  "scripts": {
+    "build": "node index.js"
+  },
+  "type": "module"
 }
