@@ -14,11 +14,16 @@ exec(`pdftotext -layout "${pdfPath}" -`, (error, stdout, stderr) => {
   }
 
   const textWithSpaces = stdout;
-  const parsedData = [];
+  let parsedData = [];
 
   textWithSpaces.split('\n').forEach(line => {
-    const lineRegex = /^\s*(\d+)\s+(\d+)\s+([\w\s]+?)\s{2,}([\w\s]+?)\s{2,}(\d{2}:\d{2})\s{2,}(\d{2}:\d{2})\s{2,}([\d,\s]+)\s{2,}([A-Za-z]+)\s{2,}(.*)/;
+    line = line.replaceAll("koh", "Koh").
+      replaceAll("Buloan", "Bulone").
+      replaceAll("Railay", "Railay Beach").
+      replaceAll("Pakbara pier ", "Pakbara Pier").
+      replaceAll("PhiPhi", "Phi Phi");
 
+    const lineRegex = /^\s*(\d+)\s+(\d+)\s+([\w\s]+?)\s{2,}([\w\s]+?)\s{2,}(\d{2}:\d{2})\s{2,}(\d{2}:\d{2})\s{2,}([\d,\s]+)\s{2,}([A-Za-z]+)\s{2,}(.*)/;
     const match = line.match(lineRegex);
 
     if (match) {
@@ -45,11 +50,27 @@ exec(`pdftotext -layout "${pdfPath}" -`, (error, stdout, stderr) => {
     }
   });
 
+  parsedData.sort((a, b) => {
+    const fromComparison = a.from.localeCompare(b.from);
+    if (fromComparison !== 0) {
+      return fromComparison;
+    }
+
+    const toComparison = a.to.localeCompare(b.to);
+    if (toComparison !== 0) {
+      return toComparison;
+    }
+
+    return a.schedule.localeCompare(b.schedule);
+  });
+
+  parsedData = parsedData.filter((item) => item.notes !== "No Service");
+
   const csvRows = parsedData.map(row => {
     const rowValues = [
       row.from,
       row.to,
-      row.schedule.replace('-', ' - '),
+      row.schedule,
       row.adultSellingPrice,
       row.childSellingPrice,
       row.adultNetPrice,

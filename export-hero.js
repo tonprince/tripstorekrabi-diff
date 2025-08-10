@@ -1,6 +1,5 @@
 const { firestore } = require('./firebase.js');
 const { writeFileSync } = require('fs');
-const data = require('./2025-2026-r1.json');
 
 exportData();
 
@@ -55,36 +54,5 @@ async function exportData() {
   writeFileSync(
     'hero.csv',
     outputRows.join('\n')
-  );
-
-
-  const filteredData = data.filter(row => validRoutes.has(`${row.from}-${row.to}`)).filter((item) => item.availability !== "No Service");
-
-  filteredData.sort((d1, d2) => {
-    const fromComparison = d1.from.localeCompare(d2.from);
-    if (fromComparison !== 0) return fromComparison;
-
-    const toComparison = d1.to.localeCompare(d2.to);
-    if (toComparison !== 0) return toComparison;
-
-    return d1.schedule.localeCompare(d2.schedule);
-  });
-
-  const csvRows = filteredData.map(row => {
-    const rowValues = [
-      row.from,
-      row.to,
-      row.schedule.replace('-', ' - '),
-      row.adultSellingPrice,
-      row.childSellingPrice,
-      row.adultNetPrice,
-      row.childNetPrice
-    ];
-    return rowValues.join(', ');
-  });
-
-  writeFileSync(
-    'spsc.csv',
-    csvRows.join('\n')
   );
 }
