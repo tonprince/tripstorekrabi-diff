@@ -20,18 +20,25 @@ export async function exportPdf(items) {
     let parsedData = [];
 
     textWithSpaces.split('\n').forEach(line => {
-      line = addTwoSpacesBeforeKoh(line);
-      line = replaceLanta(line);
       line = line.replaceAll("koh", "Koh").
         replaceAll("Buloan", "Bulone").
         replaceAll("Railay", "Railay Beach").
         replaceAll("Pakbara pier ", "Pakbara Pier").
         replaceAll("Phiphi", "Phi Phi").
         replaceAll("PhiPhi", "Phi Phi").
-        replaceAll("Koh Langkawi", "Langkawi");
+        replaceAll("Koh Langkawi", "Langkawi").
+        replaceAll("(MYT)", "").
+        replaceAll("(THT)", "").
+        replaceAll("0.0", "0:0");
+      line = addTwoSpacesBeforeKoh(line);
+      line = replaceLanta(line);
 
       const lineRegex = /^\s*(\d+)\s+(\d+)\s+([\w\s]+?)\s{2,}([\w\s]+?)\s{2,}(\d{2}:\d{2})\s{2,}(\d{2}:\d{2})\s{2,}([\d,\s]+)\s{2,}([^\s]+)\s{2,}(.*)/;
       const match = line.match(lineRegex);
+
+      if (line.startsWith("195")) {
+        console.log(line);
+      }
 
       if (match) {
         const prices = match[7]
@@ -56,8 +63,6 @@ export async function exportPdf(items) {
         const routeKey = `${item.from}|${item.to}`;
         if (validRoutes.has(routeKey)) {
           parsedData.push(item);
-        } else {
-          console.log(routeKey)
         }
       } else {
         return null;
@@ -101,7 +106,7 @@ export async function exportPdf(items) {
 }
 
 function addTwoSpacesBeforeKoh(text) {
-  return text.replace(/\s(?=Koh)/, '   ');
+  return text.replace(/\s+(?=Koh)/, '  ');
 }
 
 function replaceLanta(text) {
