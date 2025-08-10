@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { exec } from 'child_process';
 import { writeFileSync } from 'fs';
 import { promisify } from 'util';
+import spsc from "./output/spsc.json" with { type: 'json' };
 
 const execPromise = promisify(exec);
 dotenv.config();
@@ -21,8 +22,9 @@ function chunkArray(arr, size) {
   return result;
 }
 
-export async function exportPdf() {
+export async function exportPdf(items = []) {
   try {
+    const validRoutes = new Set(items.map(item => `${item.from.trim()}|${item.to.trim()}`));
     const { stdout } = await execPromise(`pdftotext -layout "${pdfPath}" -`);
 
     let lastNumber = 0;
@@ -38,11 +40,11 @@ export async function exportPdf() {
       }
     }
 
-    const chunks = chunkArray(extractedLines, 20);
-    const allExtractedItems = [];
-
-    for (const chunk of chunks) {
-      const prompt = `
+    let allExtractedItems = []
+    if (true) {
+      const chunks = chunkArray(extractedLines, 20);
+      for (const chunk of chunks) {
+        const prompt = `
         You are a text-to-JSON extraction assistant.
         Extract ALL data from the text below and convert it into a JSON array of objects.
         Do not skip any records.
@@ -51,7 +53,7 @@ export async function exportPdf() {
         - "contractId": string
         - "from": string
         - "to": string
-        - "schedule": string (e.g., "12:00 - 14:00")
+        - "schedule": string in 24 hour format (e.g., "12:00 - 14:00")
         - "adultSellingPrice": number
         - "childSellingPrice": number
         - "adultNetPrice": number
@@ -66,43 +68,70 @@ export async function exportPdf() {
         ${chunk.join("\n")}
       `;
 
-      try {
-        const result = await ai.models.generateContent({
-          model: GEMINI_MODEL,
-          config: {
-            responseMimeType: "application/json",
-            maxOutputTokens: MAX_OUTPUT_TOKENS,
-            responseSchema: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  contractId: { type: "string" },
-                  from: { type: "string" },
-                  to: { type: "string" },
-                  schedule: { type: "string" },
-                  adultSellingPrice: { type: "number" },
-                  childSellingPrice: { type: "number" },
-                  adultNetPrice: { type: "number" },
-                  childNetPrice: { type: "number" },
-                  notes: { type: "string" },
-                  availability: { type: "string" },
+        try {
+          const result = await ai.models.generateContent({
+            model: GEMINI_MODEL,
+            config: {
+              responseMimeType: "application/json",
+              maxOutputTokens: MAX_OUTPUT_TOKENS,
+              responseSchema: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    contractId: { type: "string" },
+                    from: { type: "string" },
+                    to: { type: "string" },
+                    schedule: { type: "string" },
+                    adultSellingPrice: { type: "number" },
+                    childSellingPrice: { type: "number" },
+                    adultNetPrice: { type: "number" },
+                    childNetPrice: { type: "number" },
+                    notes: { type: "string" },
+                    availability: { type: "string" },
+                  },
+                  required: ["contractId", "from", "to", "schedule", "adultSellingPrice", "childSellingPrice", "adultNetPrice", "childNetPrice", "notes", "availability"],
                 },
-                required: ["contractId", "from", "to", "schedule", "adultSellingPrice", "childSellingPrice", "adultNetPrice", "childNetPrice", "notes", "availability"],
               },
             },
-          },
-          contents: [{ role: "user", parts: [{ text: prompt }] }],
-        });
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+          });
 
-        const jsonObject = await result.text;
-        const parsedArray = JSON.parse(jsonObject);
-        allExtractedItems.push(...parsedArray);
-        writeFileSync(outputJsonPath, JSON.stringify(allExtractedItems, null, 2));
-      } catch (error) {
-        console.error("Error calling Gemini API for a chunk:", error);
+          const jsonObject = await result.text;
+          const parsedArray = JSON.parse(jsonObject ?? "[]");
+          allExtractedItems.push(...parsedArray);
+          writeFileSync(outputJsonPath, JSON.stringify(allExtractedItems, null, 2));
+        } catch (error) {
+          console.error("Error calling Gemini API for a chunk:", error);
+        }
       }
     }
+    else {
+      allExtractedItems = spsc;
+    }
+
+    allExtractedItems.forEach((item) => {
+      item.from = normailizeFromTo(item.from);
+      item.to = normailizeFromTo(item.to);
+      item.schedule = normailizeSchedule(item.schedule);
+    });
+
+    allExtractedItems = allExtractedItems.filter((item) => item.notes !== "No Service");
+    allExtractedItems = allExtractedItems.filter((item) => validRoutes.has(`${item.from}|${item.to}`));
+
+    allExtractedItems.sort((a, b) => {
+      const fromComparison = a.from.localeCompare(b.from);
+      if (fromComparison !== 0) {
+        return fromComparison;
+      }
+
+      const toComparison = a.to.localeCompare(b.to);
+      if (toComparison !== 0) {
+        return toComparison;
+      }
+
+      return a.schedule.localeCompare(b.schedule);
+    });
 
     let outputRows = allExtractedItems.map(row => `${row.from}, ${row.to}, ${row.schedule}, ${row.adultSellingPrice}, ${row.childSellingPrice}, ${row.adultNetPrice}, ${row.childNetPrice}`);
 
@@ -115,4 +144,24 @@ export async function exportPdf() {
   }
 }
 
-exportPdf();
+function normailizeFromTo(text) {
+  return text.replaceAll("koh", "Koh").
+    replaceAll("Buloan", "Bulone").
+    replaceAll("Railay", "Railay Beach").
+    replaceAll("Pakbara pier ", "Pakbara Pier").
+    replaceAll("Phiphi", "Phi Phi").
+    replaceAll("PhiPhi", "Phi Phi").
+    replaceAll(/(?<!Koh )Lanta/g, "Koh Lanta").
+    replaceAll("Koh Langkawi", "Langkawi").
+    replaceAll("Hatyai", "Hat Yai");
+}
+
+function normailizeSchedule(schedule) {
+  return schedule
+    .replaceAll(" - ", "#TEMP#") // Temporarily protect " - "
+    .replaceAll(/\s\s+/g, " ") // Replace multiple spaces with a single space
+    .replaceAll(" ", " - ") // Replace single spaces with " - "
+    .replaceAll("#TEMP#", " - ") // Restore " - "
+    .replaceAll("(THT)", "")
+    .replaceAll("(MYT)", "");
+}
