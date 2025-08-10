@@ -148,12 +148,13 @@ function normailizeFromTo(text) {
   return text.replaceAll("koh", "Koh").
     replaceAll("Buloan", "Bulone").
     replaceAll("Railay", "Railay Beach").
-    replaceAll("Pakbara pier ", "Pakbara Pier").
+    replaceAll("Pakbara pier", "Pakbara Pier").
     replaceAll("Phiphi", "Phi Phi").
     replaceAll("PhiPhi", "Phi Phi").
     replaceAll(/(?<!Koh )Lanta/g, "Koh Lanta").
     replaceAll("Koh Langkawi", "Langkawi").
-    replaceAll("Hatyai", "Hat Yai");
+    replaceAll("(Telaga )", "").
+    replaceAll("Hatyai", "Hat Yai").trim()
 }
 
 function normailizeSchedule(schedule) {
@@ -163,5 +164,5 @@ function normailizeSchedule(schedule) {
     .replaceAll(" ", " - ") // Replace single spaces with " - "
     .replaceAll("#TEMP#", " - ") // Restore " - "
     .replaceAll("(THT)", "")
-    .replaceAll("(MYT)", "");
+    .replaceAll("(MYT)", "").trim()
 }
