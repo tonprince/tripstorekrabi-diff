@@ -24,10 +24,16 @@ export async function exportPdf() {
         replaceAll("Buloan", "Bulone").
         replaceAll("Railay", "Railay Beach").
         replaceAll("Pakbara pier ", "Pakbara Pier").
-        replaceAll("PhiPhi", "Phi Phi");
+        replaceAll("Phiphi", "Phi Phi").
+        replaceAll("PhiPhi", "Phi Phi").
+        replaceAll("Koh Langkawi", "Langkawi");
 
-      const lineRegex = /^\s*(\d+)\s+(\d+)\s+([\w\s]+?)\s{2,}([\w\s]+?)\s{2,}(\d{2}:\d{2})\s{2,}(\d{2}:\d{2})\s{2,}([\d,\s]+)\s{2,}([A-Za-z]+)\s{2,}(.*)/;
+      const lineRegex = /^\s*(\d+)\s+(\d+)\s+([\w\s]+?)\s{2,}([\w\s]+?)\s{2,}(\d{2}:\d{2})\s{2,}(\d{2}:\d{2})\s{2,}([\d,\s]+)\s{2,}([^\s]+)\s{2,}(.*)/;
       const match = line.match(lineRegex);
+
+      if (line.startsWith("30")) {
+        console.log(line)
+      }
 
       if (match) {
         const prices = match[7]
@@ -90,21 +96,13 @@ export async function exportPdf() {
 }
 
 function addTwoSpacesBeforeKoh(text) {
-  // This regex finds a single space (`\s`) that is immediately followed by "Koh"
-  // The `(?=Koh)` is a positive lookahead; it asserts that "Koh" is present but
-  // doesn't include it in the text that gets replaced.
   return text.replace(/\s(?=Koh)/, '   ');
 }
 
 function replaceLanta(text) {
-  // Check if "Koh Lanta" already exists in the string.
-  // The 'if' condition will only be true if it's not found.
   if (!text.includes('Koh Lanta')) {
-    // This regex matches the whole word "Lanta" using word boundaries (\b).
-    // The 'g' flag ensures all occurrences are replaced.
     return text.replace(/\bLanta\b/g, 'Koh Lanta');
   }
 
-  // If "Koh Lanta" is already present, return the original text unchanged.
   return text;
 }

@@ -1,5 +1,5 @@
+Hatyai Airport, Koh Lipe, 11:30 - 15:00, 700, 700, 600, 
 Koh Bulone, Koh Kradan, 11:30 - 12:15, 900, 540, 800, 490
-Koh Bulone, Koh Langkawi, 12:35 - 18:00, 2000, 1560, 1700, 1410
 Koh Bulone, Koh Lanta, 11:30 - 13:30, 1600, 960, 1350, 860
 Koh Bulone, Koh Lipe, 11:30 - 13:30, 600, 360, 500, 310
 Koh Bulone, Koh Lipe, 12:35 - 13:30, 600, 360, 500, 310
@@ -9,22 +9,34 @@ Koh Bulone, Koh Phi Phi, 11:30 - 15:00, 2300, 1300, 1700, 1200
 Koh Bulone, Koh Yao Noi, 11:30 - 16:15, 2800, 1960, 2250, 1660
 Koh Bulone, Koh Yao Yai, 11:30 - 16:25, 2800, 1960, 2250, 1660
 Koh Bulone, Krabi, 11:30 - 15:35, 2400, 1710, 2100, 1410
+Koh Bulone, Langkawi, 12:35 - 18:00, 2000, 1560, 1700, 1410
 Koh Bulone, Phuket, 11:30 - 16:00, 2450, 1700, 2000, 1600
+Koh Bulone, Railay Beach, 10:00 - 14:50, 2700, 1860, 2150, 
+Koh Bulone, Railay Beach, 11:30 - 15:50, 2700, 1860, 2150, 
 Koh Kradan, Koh Bulone, 11:35 - 12:35, 900, 540, 800, 490
 Koh Kradan, Koh Lanta, 10:45 - 12:00, 950, 650, 850, 600
 Koh Kradan, Koh Lanta, 12:15 - 13:30, 950, 650, 850, 600
 Koh Kradan, Koh Lipe, 11:35 - 13:30, 1400, 840, 1200, 740
+Koh Kradan, Koh Mook, 10:10 - 10:30, 300, 180, 250, 
 Koh Kradan, Koh Mook, 10:45 - 11:00, 300, 180, 250, 150
 Koh Kradan, Koh Mook, 12:15 - 12:30, 300, 180, 250, 150
+Koh Kradan, Koh Mook, 15:10 - 15:30, 300, 180, 250, 
 Koh Kradan, Koh Ngai, 10:45 - 11:30, 400, 240, 300, 180
+Koh Kradan, Koh Ngai, 10:50 - 11:10, 400, 240, 300, 
 Koh Kradan, Koh Ngai, 12:15 - 12:50, 400, 240, 300, 180
+Koh Kradan, Koh Ngai, 15:50 - 16:10, 400, 240, 300, 
 Koh Kradan, Koh Phi Phi, 10:45 - 13:30, 1600, 950, 1300, 750
 Koh Kradan, Koh Phi Phi, 12:15 - 15:00, 1600, 950, 1300, 750
 Koh Kradan, Koh Yao Noi, 12:15 - 16:15, 2150, 1690, 1750, 1430
 Koh Kradan, Koh Yao Yai, 12:15 - 16:25, 2150, 1690, 1750, 1430
 Koh Kradan, Krabi, 12:15 - 15:35, 1900, 1440, 1600, 1180
+Koh Kradan, Langkawi, 11:35 - 18:00, 2700, 2040, 2400, 1840
+Koh Kradan, Pakmeng, 10:50 - 11:30, 600, 400, 500, 
+Koh Kradan, Pakmeng, 15:50 - 16:30, 600, 400, 500, 
 Koh Kradan, Phuket, 10:45 - 14:30, 1950, 1290, 1750, 1090
 Koh Kradan, Phuket, 12:15 - 16:00, 1950, 1290, 1750, 1090
+Koh Kradan, Railay Beach, 10:45 - 14:50, 2050, 1550, 1650, 
+Koh Kradan, Railay Beach, 12:15 - 15:50, 2050, 1550, 1650, 
 Koh Lanta, Koh Bulone, 10:30 - 12:30, 1600, 960, 1350, 860
 Koh Lanta, Koh Kradan, 10:30 - 11:35, 950, 650, 850, 600
 Koh Lanta, Koh Kradan, 15:00 - 16:10, 950, 650, 850, 600
@@ -42,7 +54,9 @@ Koh Lanta, Koh Phuket, 14:30 - 16:00, 1500, 900, 1000, 700
 Koh Lanta, Koh Yao Noi, 14:30 - 16:15, 1200, 1000, 900, 800
 Koh Lanta, Koh Yao Yai, 14:30 - 16:25, 1200, 1000, 900, 800
 Koh Lanta, Krabi, 14:30 - 15:35, 950, 750, 750, 550
+Koh Lanta, Langkawi, 10:30 - 18:00, 3000, 2340, 2600, 2140
 Koh Lanta, Railay Beach, 14:30 - 15:50, 1100, 900, 800, 700
+Koh Lipe, Hatyai Airport, 11:30 - 15:00, 700, 700, 600, 
 Koh Lipe, Koh Bulone, 10:30 - 11:30, 600, 360, 500, 310
 Koh Lipe, Koh Kradan, 10:30 - 12:15, 1400, 840, 1200, 740
 Koh Lipe, Koh Lanta, 10:30 - 13:30, 1700, 1140, 1400, 1040
@@ -55,50 +69,68 @@ Koh Lipe, Krabi, 10:30 - 15:35, 2650, 1890, 2150, 1590
 Koh Lipe, Pakbara Pier, 09:30 - 11:00, 500, 500, 450, 450
 Koh Lipe, Pakbara Pier, 11:30 - 13:00, 500, 500, 450, 450
 Koh Lipe, Phuket, 10:30 - 16:00, 2450, 1700, 2000, 1600
+Koh Lipe, Railay Beach, 10:30 - 15:50, 2800, 2040, 2200, 
 Koh Mook, Koh Bulone, 11:20 - 12:35, 900, 540, 800, 490
+Koh Mook, Koh Kradan, 10:30 - 10:50, 300, 180, 250, 
 Koh Mook, Koh Kradan, 11:20 - 11:35, 300, 180, 250, 150
+Koh Mook, Koh Kradan, 15:30 - 15:50, 300, 180, 250, 
 Koh Mook, Koh Kradan, 15:50 - 16:10, 300, 180, 250, 150
 Koh Mook, Koh Lanta, 11:00 - 12:00, 900, 540, 800, 490
 Koh Mook, Koh Lanta, 12:30 - 13:30, 900, 540, 800, 490
 Koh Mook, Koh Lipe, 11:20 - 13:30, 1400, 840, 1200, 740
+Koh Mook, Koh Ngai, 10:30 - 11:10, 350, 210, 250, 
 Koh Mook, Koh Ngai, 11:00 - 11:30, 350, 210, 250, 160
 Koh Mook, Koh Ngai, 12:30 - 12:50, 350, 210, 250, 160
+Koh Mook, Koh Ngai, 15:30 - 16:10, 350, 210, 250, 
 Koh Mook, Koh Phi Phi, 11:00 - 13:30, 1600, 950, 1300, 750
 Koh Mook, Koh Phi Phi, 12:30 - 15:00, 1600, 950, 1300, 750
 Koh Mook, Koh Yao Noi, 12:30 - 16:15, 2100, 1540, 1700, 1290
 Koh Mook, Koh Yao Yai, 12:30 - 16:25, 2100, 1540, 1700, 1290
 Koh Mook, Krabi, 12:30 - 15:35, 1800, 1290, 1550, 1040
+Koh Mook, Langkawi, 11:20 - 18:00, 2700, 2040, 2400, 1840
+Koh Mook, Pakmeng, 10:30 - 11:30, 600, 400, 500, 
+Koh Mook, Pakmeng, 15:30 - 16:30, 600, 400, 500, 
 Koh Mook, Phuket, 11:00 - 14:30, 1950, 1290, 1750, 1090
 Koh Mook, Phuket, 12:30 - 16:00, 1950, 1290, 1750, 1090
+Koh Mook, Railay Beach, 11:00 - 14:50, 2000, 1440, 1600, 
+Koh Mook, Railay Beach, 12:30 - 15:50, 2000, 1440, 1600, 
 Koh Ngai, Koh Bulone, 11:10 - 12:35, 1050, 630, 950, 580
 Koh Ngai, Koh Kradan, 11:10 - 11:35, 400, 240, 300, 180
+Koh Ngai, Koh Kradan, 14:50 - 15:10, 400, 240, 300, 
 Koh Ngai, Koh Kradan, 15:40 - 16:10, 400, 240, 300, 180
 Koh Ngai, Koh Lanta, 11:30 - 12:00, 650, 390, 500, 340
 Koh Ngai, Koh Lanta, 12:50 - 13:30, 650, 390, 500, 340
 Koh Ngai, Koh Lipe, 11:10 - 13:30, 1600, 960, 1400, 860
 Koh Ngai, Koh Mook, 11:10 - 11:20, 350, 210, 250, 160
+Koh Ngai, Koh Mook, 14:50 - 15:30, 350, 210, 250, 
 Koh Ngai, Koh Mook, 15:40 - 15:50, 350, 210, 250, 160
 Koh Ngai, Koh Phi Phi, 11:30 - 13:30, 1350, 810, 1050, 640
 Koh Ngai, Koh Phi Phi, 12:50 - 15:00, 1350, 810, 1050, 640
 Koh Ngai, Koh Yao Noi, 12:50 - 16:15, 1850, 1390, 1400, 1140
 Koh Ngai, Koh Yao Yai, 12:50 - 16:25, 1850, 1390, 1400, 1140
 Koh Ngai, Krabi, 12:50 - 15:35, 1500, 1140, 1250, 890
+Koh Ngai, Langkawi, 11:10 - 18:00, 2900, 2160, 2400, 1960
+Koh Ngai, Pakmeng, 11:10 - 11:30, 600, 400, 500, 
+Koh Ngai, Pakmeng, 16:10 - 16:30, 600, 400, 500, 
 Koh Ngai, Phuket, 11:30 - 14:30, 1950, 1290, 1750, 1090
 Koh Ngai, Phuket, 12:50 - 16:00, 1950, 1290, 1750, 1090
-Koh Phiphi, Koh Bulone, 09:30 - 12:35, 2300, 1300, 1700, 1200
-Koh Phiphi, Koh Kradan, 09:30 - 11:35, 1600, 950, 1300, 750
-Koh Phiphi, Koh Kradan, 13:30 - 16:10, 1600, 950, 1300, 750
-Koh Phiphi, Koh Lanta, 09:30 - 10:00, 700, 600, 500, 400
-Koh Phiphi, Koh Lanta, 12:00 - 12:30, 700, 600, 500, 400
-Koh Phiphi, Koh Lanta, 13:30 - 14:00, 700, 600, 500, 400
-Koh Phiphi, Koh Lipe, 09:30 - 13:30, 2300, 1300, 1700, 1200
-Koh Phiphi, Koh Mook, 09:30 - 11:20, 1600, 950, 1300, 750
-Koh Phiphi, Koh Mook, 13:30 - 15:50, 1600, 950, 1300, 750
-Koh Phiphi, Koh Ngai, 09:30 - 11:10, 1350, 810, 1050, 640
-Koh Phiphi, Koh Ngai, 13:30 - 15:40, 1350, 810, 1050, 640
-Koh Phiphi, Phuket, 09:30 - 10:30, 700, 600, 500, 400
-Koh Phiphi, Phuket, 13:30 - 14:30, 700, 600, 500, 400
-Koh Phiphi, Phuket, 15:00 - 16:00, 700, 600, 500, 400
+Koh Ngai, Railay Beach, 11:30 - 14:50, 1750, 1290, 1300, 
+Koh Ngai, Railay Beach, 12:50 - 15:50, 1750, 1290, 1300, 
+Koh Phi Phi, Koh Bulone, 09:30 - 12:35, 2300, 1300, 1700, 1200
+Koh Phi Phi, Koh Kradan, 09:30 - 11:35, 1600, 950, 1300, 750
+Koh Phi Phi, Koh Kradan, 13:30 - 16:10, 1600, 950, 1300, 750
+Koh Phi Phi, Koh Lanta, 09:30 - 10:00, 700, 600, 500, 400
+Koh Phi Phi, Koh Lanta, 12:00 - 12:30, 700, 600, 500, 400
+Koh Phi Phi, Koh Lanta, 13:30 - 14:00, 700, 600, 500, 400
+Koh Phi Phi, Koh Lipe, 09:30 - 13:30, 2300, 1300, 1700, 1200
+Koh Phi Phi, Koh Mook, 09:30 - 11:20, 1600, 950, 1300, 750
+Koh Phi Phi, Koh Mook, 13:30 - 15:50, 1600, 950, 1300, 750
+Koh Phi Phi, Koh Ngai, 09:30 - 11:10, 1350, 810, 1050, 640
+Koh Phi Phi, Koh Ngai, 13:30 - 15:40, 1350, 810, 1050, 640
+Koh Phi Phi, Langkawi, 09:30 - 18:00, 3500, 2760, 2900, 2440
+Koh Phi Phi, Phuket, 09:30 - 10:30, 700, 600, 500, 400
+Koh Phi Phi, Phuket, 13:30 - 14:30, 700, 600, 500, 400
+Koh Phi Phi, Phuket, 15:00 - 16:00, 700, 600, 500, 400
 Koh Tarutao, Koh Lipe, 12:00 - 13:00, 500, 500, 450, 450
 Koh Yao Noi, Koh Bulone, 08:10 - 12:35, 2800, 1960, 2250, 1660
 Koh Yao Noi, Koh Kradan, 08:10 - 11:35, 2150, 1690, 1750, 1430
@@ -130,6 +162,9 @@ Krabi, Railay Beach, 15:35 - 15:50, 400, 400, 300, 300
 Pakbara Pier, Koh Lipe, 11:30 - 13:00, 500, 500, 450, 450
 Pakbara Pier, Koh Lipe, 13:30 - 15:00, 500, 500, 450, 450
 Pakbara Pier, Koh Tarutao, 11:30 - 12:00, 500, 500, 450, 450
+Pakmeng, Koh Kradan, 14:30 - 15:10, 600, 400, 500, 
+Pakmeng, Koh Mook, 14:30 - 15:30, 600, 400, 500, 
+Pakmeng, Koh Ngai, 14:30 - 14:50, 600, 400, 500, 
 Phuket, Koh Bulone, 08:30 - 12:35, 2450, 1700, 2000, 1600
 Phuket, Koh Kradan, 08:30 - 11:35, 1950, 1290, 1750, 1090
 Phuket, Koh Kradan, 12:30 - 16:10, 1950, 1290, 1750, 1090
@@ -144,6 +179,7 @@ Phuket, Koh Ngai, 12:30 - 15:40, 1950, 1290, 1750, 1090
 Phuket, Koh Phi Phi, 08:30 - 09:30, 700, 600, 500, 400
 Phuket, Koh Phi Phi, 11:00 - 12:00, 700, 600, 500, 400
 Phuket, Koh Phi Phi, 12:30 - 13:30, 700, 600, 500, 400
+Phuket, Langkawi, 08:30 - 18:00, 3850, 2900, 3200, 2700
 Railay Beach, Koh Bulone, 08:35 - 12:35, 2300, 1300, 1700, 1200
 Railay Beach, Koh Kradan, 08:35 - 11:35, 1600, 950, 1300, 750
 Railay Beach, Koh Lanta, 08:35 - 10:00, 1100, 900, 800, 700
@@ -152,3 +188,4 @@ Railay Beach, Koh Mook, 08:35 - 11:20, 1600, 950, 1300, 750
 Railay Beach, Koh Ngai, 08:35 - 11:10, 1350, 810, 1050, 640
 Railay Beach, Koh Yao Noi, 15:50 - 16:15, 1350, 1150, 1050, 950
 Railay Beach, Koh Yao Yai, 15:50 - 16:25, 1350, 1150, 1050, 950
+Railay Beach, Langkawi, 08:35 - 18:30, 3500, 2760, 2900, 2440
