@@ -1,0 +1,13 @@
+{
+  "name": "tripstorekrabi-diff",
+  "version": "1.0.0",
+  "author": "Stefan Sommer <tonprince@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonprince/tripstorekrabi-diff.git"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.4.0"
+  },
+  "type": "commonjs"
+}
