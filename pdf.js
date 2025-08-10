@@ -1,12 +1,19 @@
+import { GoogleGenAI } from "@google/genai";
+import dotenv from "dotenv";
 import { exec } from 'child_process';
-import fs from 'fs';
+import { writeFileSync } from 'fs';
+
+dotenv.config();
 
 const pdfPath = 'SPC Contract_Rate-2025-2026-R1.pdf';
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const GEMINI_MODEL = "gemini-1.5-pro-latest";
+const MAX_OUTPUT_TOKENS = 65536;
 
 export async function exportPdf(items) {
-  const validRoutes = new Set(items.map(item => `${item.from.trim()}|${item.to.trim()}`));
+  //const validRoutes = new Set(items.map(item => `${item.from.trim()}|${item.to.trim()}`));
 
-  return exec(`pdftotext -layout "${pdfPath}" -`, (error, stdout, stderr) => {
+  return exec(`pdftotext -layout "${pdfPath}" -`, async (error, stdout, stderr) => {
     if (error) {
       console.error(`Error converting PDF: ${error.message}`);
       return;
@@ -16,92 +23,89 @@ export async function exportPdf(items) {
       return;
     }
 
-    const textWithSpaces = stdout;
-    let parsedData = [];
-
-    textWithSpaces.split('\n').forEach(line => {
-      line = line.replaceAll("koh", "Koh").
-        replaceAll("Buloan", "Bulone").
-        replaceAll("Railay", "Railay Beach").
-        replaceAll("Pakbara pier ", "Pakbara Pier").
-        replaceAll("Phiphi", "Phi Phi").
-        replaceAll("PhiPhi", "Phi Phi").
-        replaceAll("Koh Langkawi", "Langkawi").
-        replaceAll("(MYT)", "").
-        replaceAll("(THT)", "").
-        replaceAll("0.0", "0:0");
-      line = addTwoSpacesBeforeKoh(line);
-      line = replaceLanta(line);
-
-      const lineRegex = /^\s*(\d+)\s+(\d+)\s+([\w\s]+?)\s{2,}([\w\s]+?)\s{2,}(\d{2}:\d{2})\s{2,}(\d{2}:\d{2})\s{2,}([\d,\s]+)\s{2,}([^\s]+)\s{2,}(.*)/;
-      const match = line.match(lineRegex);
-
-      if (line.startsWith("195")) {
-        console.log(line);
-      }
+    let lastNumber = 0;
+    const extractedLines = [];
+    for await (const line of stdout.split("\n")) {
+      const match = line.match(/^(\d+)/);
 
       if (match) {
-        const prices = match[7]
-          .trim()
-          .split(/\s+/)
-          .map(price => parseInt(price.replace(/,/g, ''), 10));
-
-        let item = {
-          id: match[1],
-          number: match[2],
-          from: match[3].trim(),
-          to: match[4].trim(),
-          schedule: `${match[5]} - ${match[6]}`,
-          adultSellingPrice: prices[0],
-          childSellingPrice: prices[1],
-          adultNetPrice: prices[2],
-          childNetPrice: prices[3],
-          vehicle: match[8].trim(),
-          notes: match[9].trim()
-        };
-
-        const routeKey = `${item.from}|${item.to}`;
-        if (validRoutes.has(routeKey)) {
-          parsedData.push(item);
+        const currentNumber = parseInt(match[1], 10);
+        if (currentNumber > lastNumber) {
+          extractedLines.push(line);
+          lastNumber = currentNumber;
         }
-      } else {
-        return null;
+        else if (currentNumber === 1) {
+          extractedLines.push(line);
+          lastNumber = 1;
+        }
       }
-    });
+    }
 
-    parsedData.sort((a, b) => {
-      const fromComparison = a.from.localeCompare(b.from);
-      if (fromComparison !== 0) {
-        return fromComparison;
+    try {
+      const prompt = `
+        You are a text-to-JSON extraction assistant.
+        Extract ALL data from the raw text provided below and convert it into a JSON array of objects.
+        Do not skip any records. Your goal is to produce exactly 200 items in the JSON array.
+
+        For each row, create a JSON object with the following fields:
+        - "contractId": string
+        - "from": string
+        - "to": string
+        - "schedule": string (e.g., "12:00-14:00")
+        - "adultSellingPrice": number
+        - "childSellingPrice": number
+        - "adultNetPrice": number
+        - "childNetPrice": number
+        - "notes": string
+        - "availability": string
+
+        The data records will have a number at the beginning of each line, followed by the fields mentioned above.
+
+        Raw Text to Parse:
+
+        ${extractedLines.join("\n")}
+        `;
+      const result = await ai.models.generateContentStream({
+        model: GEMINI_MODEL,
+        config: {
+          responseMimeType: "application/json",
+          maxOutputTokens: MAX_OUTPUT_TOKENS,
+          responseSchema: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                contractId: { type: "string" },
+                from: { type: "string" },
+                to: { type: "string" },
+                schedule: { type: "string" },
+                adultSellingPrice: { type: "number" },
+                childSellingPrice: { type: "number" },
+                adultNetPrice: { type: "number" },
+                childNetPrice: { type: "number" },
+                notes: { type: "string" },
+                availability: { type: "string" },
+              },
+              required: ["contractId", "from", "to", "schedule", "adultSellingPrice", "childSellingPrice", "adultNetPrice", "childNetPrice", "notes", "availability"],
+            },
+          },
+        },
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+      });
+
+      let fullResponse = "";
+
+      for await (const chunk of result) {
+        if (chunk.text) {
+          fullResponse += chunk.text;
+        }
       }
 
-      const toComparison = a.to.localeCompare(b.to);
-      if (toComparison !== 0) {
-        return toComparison;
-      }
-
-      return a.schedule.localeCompare(b.schedule);
-    });
-
-    parsedData = parsedData.filter((item) => item.notes !== "No Service");
-
-    const csvRows = parsedData.map(row => {
-      const rowValues = [
-        row.from,
-        row.to,
-        row.schedule,
-        row.adultSellingPrice,
-        row.childSellingPrice,
-        row.adultNetPrice,
-        row.childNetPrice
-      ];
-      return rowValues.join(', ');
-    });
-
-    fs.writeFileSync(
-      'output/spsc.csv',
-      csvRows.join('\n')
-    );
+      const jsonObject = JSON.parse(fullResponse);
+      console.log(jsonObject.length);
+    } catch (error) {
+      console.error("Error calling Gemini API:", error);
+    }
   });
 }
 
@@ -116,3 +120,13 @@ function replaceLanta(text) {
 
   return text;
 }
+
+function fixScheduleSpacing(scheduleString) {
+  return scheduleString.replace(/(\d{2}:\d{2})\s(\d{2}:\d{2})/, '$1   $2');
+}
+function addSpacesAfterSchedule(scheduleString) {
+  return scheduleString.replace(/(\d{2}:\d{2})$/, '$1  ');
+}
+
+
+exportPdf();
