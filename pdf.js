@@ -3,7 +3,9 @@ import fs from 'fs';
 
 const pdfPath = 'SPC Contract_Rate-2025-2026-R1.pdf';
 
-export async function exportPdf() {
+export async function exportPdf(items) {
+  const validRoutes = new Set(items.map(item => `${item.from.trim()}|${item.to.trim()}`));
+
   return exec(`pdftotext -layout "${pdfPath}" -`, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error converting PDF: ${error.message}`);
@@ -31,17 +33,13 @@ export async function exportPdf() {
       const lineRegex = /^\s*(\d+)\s+(\d+)\s+([\w\s]+?)\s{2,}([\w\s]+?)\s{2,}(\d{2}:\d{2})\s{2,}(\d{2}:\d{2})\s{2,}([\d,\s]+)\s{2,}([^\s]+)\s{2,}(.*)/;
       const match = line.match(lineRegex);
 
-      if (line.startsWith("30")) {
-        console.log(line)
-      }
-
       if (match) {
         const prices = match[7]
           .trim()
           .split(/\s+/)
           .map(price => parseInt(price.replace(/,/g, ''), 10));
 
-        parsedData.push({
+        let item = {
           id: match[1],
           number: match[2],
           from: match[3].trim(),
@@ -53,7 +51,14 @@ export async function exportPdf() {
           childNetPrice: prices[3],
           vehicle: match[8].trim(),
           notes: match[9].trim()
-        });
+        };
+
+        const routeKey = `${item.from}|${item.to}`;
+        if (validRoutes.has(routeKey)) {
+          parsedData.push(item);
+        } else {
+          console.log(routeKey)
+        }
       } else {
         return null;
       }

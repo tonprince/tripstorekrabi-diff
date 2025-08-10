@@ -53,4 +53,6 @@ export async function exportHero() {
     'output/hero.csv',
     outputRows.join('\n')
   );
+
+  return tempOutputRows;
 }

@@ -10,7 +10,8 @@
     "firebase-admin": "^13.4.0"
   },
   "scripts": {
-    "build": "node index.js"
+    "build": "brew install poppler && npm run build:prod",
+    "build:prod": "node index.js"
   },
   "type": "module"
 }
