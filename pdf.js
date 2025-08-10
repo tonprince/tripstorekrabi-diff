@@ -41,7 +41,7 @@ export async function exportPdf(items = []) {
     }
 
     let allExtractedItems = []
-    if (true) {
+    if (false) {
       const chunks = chunkArray(extractedLines, 20);
       for (const chunk of chunks) {
         const prompt = `
