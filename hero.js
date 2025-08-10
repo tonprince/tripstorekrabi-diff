@@ -50,7 +50,7 @@ export async function exportHero() {
   });
 
   writeFileSync(
-    'hero.csv',
+    'output/hero.csv',
     outputRows.join('\n')
   );
 }

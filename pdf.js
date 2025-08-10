@@ -83,7 +83,7 @@ export async function exportPdf() {
     });
 
     fs.writeFileSync(
-      'spsc.csv',
+      'output/spsc.csv',
       csvRows.join('\n')
     );
   });
