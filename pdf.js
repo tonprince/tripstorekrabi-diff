@@ -115,6 +115,7 @@ export async function exportPdf(items = []) {
       item.from = normailizeFromTo(item.from);
       item.to = normailizeFromTo(item.to);
       item.schedule = normailizeSchedule(item.schedule);
+      item.availability = normailizeAvailability(item.availability);
     });
 
     allExtractedItems = allExtractedItems.filter((item) => item.notes !== "No Service");
@@ -134,7 +135,7 @@ export async function exportPdf(items = []) {
       return a.schedule.localeCompare(b.schedule);
     });
 
-    let outputRows = allExtractedItems.map(row => `${row.from}, ${row.to}, ${row.schedule}, ${row.adultSellingPrice}, ${row.childSellingPrice}, ${row.adultNetPrice}, ${row.childNetPrice}`);
+    let outputRows = allExtractedItems.map(row => `${row.from}, ${row.to}, ${row.schedule}, ${row.adultSellingPrice}, ${row.childSellingPrice}, ${row.adultNetPrice}, ${row.childNetPrice}, ${row.availability}`);
 
     writeFileSync(
       `output/${pdfPath.replace(".pdf", ".csv")}`,
@@ -156,7 +157,7 @@ function normailizeFromTo(text) {
     replaceAll("Koh Langkawi", "Langkawi").
     replaceAll("(Telaga )", "").
     replaceAll("Ao-nang", "Ao Nang").
-    replaceAll("Hatyai", "Hat Yai").trim()
+    replaceAll("Hatyai", "Hat Yai").trim();
 }
 
 function normailizeSchedule(schedule) {
@@ -166,5 +167,10 @@ function normailizeSchedule(schedule) {
     .replaceAll(" ", " - ") // Replace single spaces with " - "
     .replaceAll("#TEMP#", " - ") // Restore " - "
     .replaceAll("(THT)", "")
-    .replaceAll("(MYT)", "").trim()
+    .replaceAll("(MYT)", "").trim();
+}
+
+function normailizeAvailability(availability) {
+  return availability
+    .replaceAll("Open Daily", "Daily");
 }
