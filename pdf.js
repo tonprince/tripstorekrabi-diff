@@ -155,6 +155,7 @@ function normailizeFromTo(text) {
     replaceAll(/(?<!Koh )Lanta/g, "Koh Lanta").
     replaceAll("Koh Langkawi", "Langkawi").
     replaceAll("(Telaga )", "").
+    replaceAll("Ao-nang", "Ao Nang").
     replaceAll("Hatyai", "Hat Yai").trim()
 }
 
