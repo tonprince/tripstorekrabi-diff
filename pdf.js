@@ -118,7 +118,7 @@ export async function exportPdf(items = []) {
       item.availability = normailizeAvailability(item.availability);
     });
 
-    allExtractedItems = allExtractedItems.filter((item) => item.notes !== "No Service");
+    //allExtractedItems = allExtractedItems.filter((item) => item.availability !== "No Service");
     allExtractedItems = allExtractedItems.filter((item) => validRoutes.has(`${item.from}|${item.to}`));
 
     allExtractedItems.sort((a, b) => {

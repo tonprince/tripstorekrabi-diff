@@ -23,29 +23,33 @@ export async function exportHero() {
         let availability = "";
         const scheduleObject = item.availability.schedules[schedule];
 
-        if (scheduleObject.mode === "blockout") {
-          if (scheduleObject.blockoutPeriods ?? [].length > 0) {
-            availability = scheduleObject.blockoutPeriods.map(period => {
-              let currentYear = dayjs().year();
+        if (item.availability.available === true) {
+          if (scheduleObject.mode === "blockout") {
+            if (scheduleObject.blockoutPeriods ?? [].length > 0) {
+              availability = scheduleObject.blockoutPeriods.map(period => {
+                let currentYear = dayjs().year();
 
-              const blockoutStart = dayjs(period.start + "." + currentYear, 'DD.MM.YYYY');
-              const blockoutEnd = dayjs(period.end + "." + currentYear, 'DD.MM.YYYY');
-              const availableStart = blockoutEnd.add(1, 'day');
-              let availableEnd = blockoutStart.add(-1, 'day').add(1, "year");
+                const blockoutStart = dayjs(period.start + "." + currentYear, 'DD.MM.YYYY');
+                const blockoutEnd = dayjs(period.end + "." + currentYear, 'DD.MM.YYYY');
+                const availableStart = blockoutEnd.add(1, 'day');
+                let availableEnd = blockoutStart.add(-1, 'day').add(1, "year");
 
-              if (availableEnd.isBefore(availableStart)) {
-                availableEnd = availableEnd.add(1, 'year');
-              }
+                if (availableEnd.isBefore(availableStart)) {
+                  availableEnd = availableEnd.add(1, 'year');
+                }
 
-              return `${availableStart.format('D MMM YYYY')} - ${availableEnd.format('D MMM YYYY')}`;
-            });
+                return `${availableStart.format('D MMM YYYY')} - ${availableEnd.format('D MMM YYYY')}`;
+              });
+            } else {
+              availability = "Daily";
+            }
+          } else if (scheduleObject.mode === "singleDates") {
+            availability = "Single dates";
           } else {
-            availability = "Daily";
+            availability = "No Service";
           }
-        } else if (scheduleObject.mode === "singleDates") {
-          availability = "Single dates";
         } else {
-          availability = "No service";
+          availability = "No Service";
         }
 
         if (item.from && item.to && item.pricing && item.pricing.volumes && item.pricing.volumes.length > 0) {
