@@ -1,15 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 import { exec } from 'child_process';
-import { writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { promisify } from 'util';
-import spsc from "./output/spsc.json" with { type: 'json' };
 
 const execPromise = promisify(exec);
 dotenv.config();
 
 const pdfPath = 'SPC Contract_Rate-2025-2026-R1.pdf';
-const outputJsonPath = 'output/spsc.json';
+const outputJsonPath = `output/${pdfPath.replace(".pdf", ".json")}`;
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const GEMINI_MODEL = "gemini-1.5-pro-latest";
 const MAX_OUTPUT_TOKENS = 65536;
@@ -28,20 +27,25 @@ export async function exportPdf(items = []) {
     const { stdout } = await execPromise(`pdftotext -layout "${pdfPath}" -`);
 
     let lastNumber = 0;
-    const extractedLines = [];
-    for (const line of stdout.split("\n")) {
-      const match = line.match(/^(\d+)/);
-      if (match) {
-        const currentNumber = parseInt(match[1], 10);
-        if (currentNumber > lastNumber || currentNumber === 1) {
-          extractedLines.push(line);
-          lastNumber = currentNumber;
+    let allExtractedItems = []
+
+    if (existsSync(outputJsonPath)) {
+      console.log(`JSON file '${outputJsonPath}' found. Using existing data to save processing time.`);
+      const fileData = readFileSync(outputJsonPath, 'utf8');
+      allExtractedItems = JSON.parse(fileData);
+    } else {
+      const extractedLines = [];
+      for (const line of stdout.split("\n")) {
+        const match = line.match(/^(\d+)/);
+        if (match) {
+          const currentNumber = parseInt(match[1], 10);
+          if (currentNumber > lastNumber || currentNumber === 1) {
+            extractedLines.push(line);
+            lastNumber = currentNumber;
+          }
         }
       }
-    }
 
-    let allExtractedItems = []
-    if (false) {
       const chunks = chunkArray(extractedLines, 20);
       for (const chunk of chunks) {
         const prompt = `
@@ -106,9 +110,6 @@ export async function exportPdf(items = []) {
         }
       }
     }
-    else {
-      allExtractedItems = spsc;
-    }
 
     allExtractedItems.forEach((item) => {
       item.from = normailizeFromTo(item.from);
@@ -136,7 +137,7 @@ export async function exportPdf(items = []) {
     let outputRows = allExtractedItems.map(row => `${row.from}, ${row.to}, ${row.schedule}, ${row.adultSellingPrice}, ${row.childSellingPrice}, ${row.adultNetPrice}, ${row.childNetPrice}`);
 
     writeFileSync(
-      'output/spsc.csv',
+      `output/${pdfPath.replace(".pdf", ".csv")}`,
       outputRows.join('\n')
     );
   } catch (error) {
