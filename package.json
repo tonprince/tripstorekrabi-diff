@@ -7,7 +7,7 @@
     "url": "git+https://github.com/tonprince/tripstorekrabi-diff.git"
   },
   "dependencies": {
-    "@google/genai": "^1.13.0",
+    "@google/genai": "^1.14.0",
     "dayjs": "^1.11.13",
     "dotenv": "^17.2.1",
     "firebase-admin": "^13.4.0"
