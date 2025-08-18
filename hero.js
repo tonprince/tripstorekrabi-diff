@@ -25,7 +25,7 @@ export async function exportHero() {
 
         if (item.availability.available === true) {
           if (scheduleObject.mode === "blockout") {
-            if (scheduleObject.blockoutPeriods ?? [].length > 0) {
+            if ((scheduleObject.blockoutPeriods ?? []).length > 0) {
               availability = scheduleObject.blockoutPeriods.map(period => {
                 let currentYear = dayjs().year();
 
