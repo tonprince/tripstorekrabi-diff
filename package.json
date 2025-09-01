@@ -7,10 +7,10 @@
     "url": "git+https://github.com/tonprince/tripstorekrabi-diff.git"
   },
   "dependencies": {
-    "@google/genai": "^1.14.0",
-    "dayjs": "^1.11.13",
+    "@google/genai": "^1.16.0",
+    "dayjs": "^1.11.18",
     "dotenv": "^17.2.1",
-    "firebase-admin": "^13.4.0"
+    "firebase-admin": "^13.5.0"
   },
   "scripts": {
     "build": "brew install poppler && npm run build:prod",
